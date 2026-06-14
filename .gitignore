@@ -20,5 +20,4 @@ Thumbs.db
 # Matlab specific
 *.asv
 *.slxc
-*.mat
 *.mex*
