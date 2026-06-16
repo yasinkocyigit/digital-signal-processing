@@ -5,7 +5,7 @@
 *.ppt
 *.pptx
 
-# Temporary text files
+# temporary text files
 extracted.txt
 
 # OS generated files
@@ -17,7 +17,7 @@ extracted.txt
 ehthumbs.db
 Thumbs.db
 
-# Matlab specific
+# matlab specific
 *.asv
 *.slxc
 *.mex*
