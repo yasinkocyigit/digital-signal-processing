@@ -1,4 +1,4 @@
-% FFT Analysis and Frequency Resolution Demonstration
+% fFT Analysis and Frequency Resolution Demonstration
 % this script demonstrates the effect of record length (N) and zero-padding.
 
 fs = 1000; % sampling frequency (Hz)

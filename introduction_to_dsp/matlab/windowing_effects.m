@@ -1,4 +1,4 @@
-% Windowing and Spectral Leakage Demonstration
+% windowing and Spectral Leakage Demonstration
 % compares rectangular, hann, and hamming windows
 
 fs = 1000;

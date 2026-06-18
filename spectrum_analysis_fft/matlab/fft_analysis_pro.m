@@ -1,5 +1,5 @@
 %% Profesyonel FFT Analizi ve Spektrum Okuma
-% Bu script, dogru frekans ekseni kurulumunu ve genlik duzeltmesini gosterir.
+% bu script, dogru frekans ekseni kurulumunu ve genlik duzeltmesini gosterir.
 
 %% 1. Sinyal Hazirligi
 Fs = 48000;
@@ -12,14 +12,14 @@ x = 0.7 * sin(2*pi*f0*t); % 0.7 genlikli sinyal
 N = numel(x);
 X = fft(x);
 
-% Tek tarafli spektrum (0'dan Nyquist'e)
+% tek tarafli spektrum (0'dan Nyquist'e)
 K = floor(N/2) + 1;
 X_tek = X(1:K);
 f = (0:K-1) * (Fs/N);
 
-% Genlik Normalizasyonu ve 2x Kurali
+% genlik Normalizasyonu ve 2x Kurali
 mag = abs(X_tek) / N;
-mag(2:end-1) = 2 * mag(2:end-1); % DC ve Nyquist haric genligi iki katina cikar
+mag(2:end-1) = 2 * mag(2:end-1); % dC ve Nyquist haric genligi iki katina cikar
 
 %% 3. Peak (Tepe Noktasi) Bulma
 [max_val, idx] = max(mag);
@@ -40,5 +40,5 @@ if ~exist('../assets', 'dir'), mkdir('../assets'); end
 saveas(gcf, '../assets/fft_spectrum.png');
 
 
-% Birden fazla tepeyi bulmak icin (Opsiyonel)
+% birden fazla tepeyi bulmak icin (Opsiyonel)
 % [pks, locs] = findpeaks(mag, f, 'MinPeakHeight', 0.1);

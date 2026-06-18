@@ -1,5 +1,5 @@
 %% Aliasing (Ortusme) Gosterimi
-% Bu script, ornekleme hizi yetersiz oldugunda frekanslarin nasil katlandigini gosterir.
+% bu script, ornekleme hizi yetersiz oldugunda frekanslarin nasil katlandigini gosterir.
 
 %% 1. Tek Ton (Sinus) Uzerinden Aliasing
 Fs_yuksek = 48000;
@@ -10,11 +10,11 @@ f0 = 6000; % 6 kHz sinyal
 
 x_yuksek = sin(2*pi*f0*t_yuksek);
 
-% Basit Downsample (8 kHz'e dusurme)
+% basit Downsample (8 kHz'e dusurme)
 D = Fs_yuksek / Fs_dusuk;
 x_dusuk = x_yuksek(1:D:end);
 
-% FFT Hesaplamalari
+% fFT Hesaplamalari
 N1 = numel(x_yuksek);
 X1 = abs(fft(x_yuksek))/N1;
 f1 = (0:floor(N1/2))*(Fs_yuksek/N1);
@@ -23,7 +23,7 @@ N2 = numel(x_dusuk);
 X2 = abs(fft(x_dusuk))/N2;
 f2 = (0:floor(N2/2))*(Fs_dusuk/N2);
 
-% Gorsellestirme
+% gorsellestirme
 figure;
 subplot(2,1,1);
 plot(f1, X1(1:numel(f1))); grid on;

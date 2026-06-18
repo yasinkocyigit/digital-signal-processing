@@ -8,7 +8,7 @@ w0 = 2*pi*(f0/fs); % normalized angular frequency
 r = 0.95; % radius of the poles (controls notch bandwidth)
 
 % filter coefficients based on H(z) equation:
-% H(z) = (1 - 2*cos(w0)*z^-1 + z^-2) / (1 - 2*r*cos(w0)*z^-1 + r^2*z^-2)
+% h(z) = (1 - 2*cos(w0)*z^-1 + z^-2) / (1 - 2*r*cos(w0)*z^-1 + r^2*z^-2)
 b = [1, -2*cos(w0), 1];
 a = [1, -2*r*cos(w0), r^2];
 

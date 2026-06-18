@@ -17,7 +17,7 @@ t = (0:length(x)-1)'/Fs;
 y_lp = filter(b_lp, a_lp, x);
 y_hp = filter(b_hp, a_hp, x);
 
-%% frekans cevapları
+%% frekans cevaplari
 [Hlp, fH] = freqz(b_lp, a_lp, 2048, Fs);
 [Hhp, ~ ] = freqz(b_hp, a_hp, 2048, Fs);
 
