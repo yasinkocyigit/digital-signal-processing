@@ -32,11 +32,16 @@ Zaman alanında bu iki sinyal tamamen farklı fiziksel davranışlar sergilemesi
 
 Klasik FFT genlik spektrumu, belirlenen frekans bileşenlerinin tepe değerlerini sunarken, rastgele süreçlerin ve gürültülü sinyallerde enerji dağılımının incelenmesinde **Güç Spektral Yoğunluğu (PSD - Power Spectral Density)** kavramı kullanılmaktadır. PSD, sinyalin toplam gücünün frekans ekseni üzerindeki dağılımını (yoğunluğunu) nicel olarak ifade eder. Sürekli zamanlı rastgele bir $x(t)$ sinyali için PSD matematiksel olarak şu şekilde tanımlanır:
 
-$$P_{xx}(f) = \lim_{T \to \infty} \frac{1}{2T} \mathbb{E}\left\{ \left| \int{-T}^{T} x(t) e^{-j2\pi ft} dt \right|^2 \right\}$$
+$$
+P_{xx}(f)=\lim_{T\to\infty}\frac{1}{2T}
+\mathbb{E}\left[
+\left|\int_{-T}^{T}x(t)e^{-j2\pi ft}\,dt\right|^2
+\right]
+$$
 
 Burada $\mathbb{E}\{\cdot\}$ beklenen değer operatörüdür. Ayrık zamanlı ve sınırlı uzunluktaki veriler için en temel PSD tahmin edici **Periodogram**'dır. $N$ örnek uzunluğundaki ayrık $x[n]$ sinyalinin $f_s$ örnekleme frekansındaki periodogram ifadesi aşağıda sunulmuştur:
 
-$$P_{\text{per}}(f) = \frac{1}{N f_s} \left| \sum_{n=0}^{N-1} x[n] e^{-j2\pi f \frac{n}{f_s}} \right|^2$$
+$$P_{\mathrm{per}}(f)=\frac{1}{Nf_s}\left|\sum_{n=0}^{N-1}x[n]e^{-j2\pi f\frac{n}{f_s}}\right|^2$$
 
 Dikey eksen birimleri genellikle güç değerlerinin geniş dinamik aralığını sıkıştırmak ve görselleştirmeyi kolaylaştırmak amacıyla desibel ölçeğine ($10\log_{10}(P_{\text{per}})$) dönüştürülür.
 
@@ -60,15 +65,31 @@ Periodogram, istatistiksel açıdan **tutarsız (inconsistent)** bir tahmin edic
 ## 4. Welch Yöntemi ile Spektrum Kararlılığının Sağlanması
 
 Periodogram tahmin edicisinin yüksek varyans problemini çözmek amacıyla Peter Welch tarafından geliştirilen **Welch Yöntemi (Averaged Modified Periodogram)**, sinyali örtüşen alt segmentlere bölerek ortalama alma mantığına dayanır. Varyansın azaltılması sürecinde şu adımlar izlenmektedir:
+1. **Segmentasyon:** Toplam $N$ örnekten oluşan sinyal, $M$ uzunluğunda $K$ adet alt segmente ayrılır.
 
-1.  **Segmentasyon:** Toplam $N$ örnekten oluşan sinyal, $M$ uzunluğunda daha kısa alt segmentlere ($K$ adet) ayrılır.
-2.  **Örtüşme (Overlapping):** Segmentlerin birbiri ardına tamamen bağımsız seçilmesi yerine, belirli bir $D$ kaydırma miktarı ile birbiri üzerine örtüşmesi (%50 veya %75 oranında) sağlanır. Bu işlem, segment sınırlarında veri kaybını önler ve veri setinin istatistiksel verimliliğini artırır.
-3.  **Pencereleme (Windowing):** Her bir alt segmente, spektral sızıntıyı (leakage) kontrol altına almak amacıyla dikdörtgen olmayan bir pencere fonksiyonu ($w[n]$, örn. Hann veya Hamming) uygulanır.
-4.  **Değiştirilmiş Periodogram Hesabı:** Her bir pencereleme işlemine tabi tutulmuş segment için ayrı ayrı periodogram hesaplanır. $i.$ segmente ait değiştirilmiş periodogram şu şekildedir:
-    $$\tilde{P}_i(f) = \frac{1}{M U} \left| \sum_{n=0}^{M-1} x_i[n] w[n] e^{-j2\pi f \frac{n}{f_s}} \right|^2$$
-    Burada $U$, pencere fonksiyonunun enerji normalizasyon faktörüdür: $U = \frac{1}{M}\sum_{n=0}^{M-1} |w[n]|^2$.
-5.  **Ortalama Alma:** Elde edilen tüm bağımsız değiştirilmiş periodogramların aritmetik ortalaması alınarak nihai Welch PSD tahmini elde edilir:
-    $$P_{\text{Welch}}(f) = \frac{1}{K} \sum_{i=0}^{K-1} \tilde{P}_i(f)$$
+2. **Örtüşme (Overlapping):** Segmentler $D$ kaydırma ile %50–%75 oranında örtüşecek şekilde seçilir.
+
+3. **Pencereleme (Windowing):** Her segmente spektral sızıntıyı azaltmak için pencere fonksiyonu $w[n]$ (Hann, Hamming vb.) uygulanır.
+
+4. **Değiştirilmiş Periodogram:** Her bir pencereleme işlemine tabi tutulmuş segment için ayrı ayrı periodogram hesaplanır. $i.$ segmente ait değiştirilmiş periodogram şu şekildedir:
+
+$$
+\tilde{P}_i(f)=\frac{1}{f_s M U}\left|\sum_{n=0}^{M-1} x_i[n]\,w[n]\,e^{-j2\pi f \frac{n}{f_s}}\right|^2
+$$
+
+Burada $U$, pencere fonksiyonunun enerji normalizasyon faktörüdür:
+
+$$
+U = \frac{1}{M}\sum_{n=0}^{M-1} |w[n]|^2
+$$
+
+5. **Ortalama Alma (Welch PSD):** Elde edilen tüm bağımsız değiştirilmiş periodogramların aritmetik ortalaması alınarak nihai Welch PSD tahmini elde edilir:
+
+$$
+\hat{P}_{Welch}(f)=\frac{1}{K}\sum_{i=0}^{K-1} \tilde{P}_i(f)
+$$
+
+$$P_{\text{Welch}}(f) = \frac{1}{K} \sum_{i=0}^{K-1} \tilde{P}_i(f)$$
 
 Ortalama alma işlemi sayesinde, spektrum tahmininin varyansı segment sayısı ($K$) ile ters orantılı olarak azalır ve kararlı bir spektral eğri elde edilir.
 
