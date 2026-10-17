@@ -1,0 +1,14 @@
+# MATLAB temporary and autosave files
+*.asv
+*.m~
+*.autosave
+
+# MATLAB generated workspace files
+*.mat
+
+# The course report may contain names, student numbers and institution details.
+sinyal_isleme_final_raporu.pdf
+
+# Operating-system metadata
+.DS_Store
+Thumbs.db
